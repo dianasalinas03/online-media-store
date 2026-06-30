@@ -1,0 +1,121 @@
+* {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
+/* Importar fuentes */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap");
+/* Importar Poppins desde Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+
+/* Colores */
+:root {
+/*  --bs-font-sans-serif: 'Playfair Display', serif;
+    --bs-body-font-family: var(--bs-font-sans-serif); /* Asegúrate de que el cuerpo use Playfair Display */
+    --text-dark: #242424;
+    --text-light: #767268;
+    --extra-light: #eef9f8;
+    --white: #ffffff;
+    --max-width: 1200px;
+   /* Reemplaza tu variable de sans-serif */
+   --bs-font-sans-serif: 'Poppins', sans-serif;
+   /* (si usas otras variables personalizadas) */
+   --header-font: 'Poppins', sans-serif;
+}
+
+/* Contenedor principal */
+main > .container {
+    padding: 30px 0;
+}
+
+/* Estilos para el formulario de login */
+.form-login {
+    max-width: 350px;
+}
+
+/* Botones */
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    color: var(--white);
+    background-color: var(--text-dark);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--text-light);
+}
+
+/* Estructura de las secciones */
+.section__container {
+    max-width: var(--max-width);
+    margin: auto;
+    padding: 5rem 1rem;
+}
+
+.section__header {
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: var(--header-font);
+    color: var(--text-dark);
+    text-align: center;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.bg-primary {
+  background-color: #767268 !important; /* Update with desired color */
+}
+
+.footer {
+  background-color: #767268 !important; /* Update with desired color */
+}
+
+/* Override any blue color */
+footer, .category-class, .bg-primary {
+  background-color: #767268 !important; /* Replace with your preferred color */
+}
+
+/* If a category is clickable, change the hover/focus color */
+.category-class:hover {
+  background-color: #f0f0f0 !important; /* Example hover color */
+}
+.list-group-item.active {
+  background-color: #767268 !important; /* Replace with your desired color */
+  border-color: #767268 !important; /* If you want to change the border color too */
+}
+
+
+.fas, .far, .fab {
+  font-family: "Font Awesome 5 Free" !important;
+  font-weight: 900; /* o 400 para los estilos regulares (.far) */
+}
+
+.bg-dark{
+  background-color: #767268 !important;
+}
+
+/* === override navbar-dark bg-dark color === */
+.navbar-dark.bg-dark {
+  background-color: #a49e91 !important; /* ← your new color */
+}
+
+.card {
+  --bs-card-border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+
+.btn{
+  --bs-card-border-radius: 0 !important;
+  border-radius: 0 !important;
+}

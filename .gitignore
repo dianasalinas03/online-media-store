@@ -1,0 +1,11 @@
+# Mac files
+.DS_Store
+
+# Composer dependencies
+/vendor/
+
+# Local database config
+config/database.php
+
+# Optional local uploads/cache
+*.log
