@@ -33,7 +33,7 @@ if ($productos != null) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda en línea</title>
+    <title>Tienda en linea</title>
 
     <link href="<?php echo SITE_URL; ?>css/bootstrap.min.css" rel="stylesheet">
     <link href="css/estilos.css" rel="stylesheet">
@@ -52,14 +52,33 @@ if ($productos != null) {
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h4>Payment details</h4>
-                    <div class="row">
-                        <div class="col-10">
-                            <div id="paypal-button-container"></div>
-                        </div>
-                    </div>
-                </div>
+               <div class="col-lg-5 col-md-5 col-sm-12">
+    <h4>Payment details</h4>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">PayPal</h5>
+            <p class="card-text">Paga de forma segura con PayPal.</p>
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-dark">
+        <div class="card-body">
+            <h5 class="card-title">Pago por OXXO</h5>
+            <p class="card-text">
+                Genera una referencia de pago para pagar en OXXO.
+                Este método será registrado como pago pendiente.
+            </p>
+
+            <form action="clases/captura_oxxo.php" method="post">
+                <button type="submit" class="btn btn-dark w-100">
+                    Generar referencia OXXO
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
                 <div class="col-lg-7 col-md-7 col-sm-12">
                     <div class="table-responsive">

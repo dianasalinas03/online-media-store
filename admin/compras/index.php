@@ -12,15 +12,23 @@ if (!isset($_SESSION['user_type']) || $_SESSION['user_type'] != 'admin') {
 $db = new Database();
 $con = $db->conectar();
 
-$sql = "SELECT id_transaccion, fecha, status, total, medio_pago, CONCAT(nombres,' ',apellidos) AS cliente
-FROM compra
-INNER JOIN clientes ON compra.id_cliente = clientes.id
-ORDER BY fecha DESC";
+$sql = "SELECT 
+            compra.id_transaccion, 
+            compra.fecha, 
+            compra.status, 
+            compra.total, 
+            compra.medio_pago, 
+            CONCAT(clientes.nombres,' ',clientes.apellidos) AS cliente
+        FROM compra
+        INNER JOIN clientes ON compra.id_cliente = clientes.id
+        ORDER BY compra.fecha DESC";
+
 $resultado = $con->query($sql);
 
 require '../header.php';
 
 ?>
+
 <!-- Contenido -->
 <main class="flex-shrink-0">
     <div class="container mt-3">
@@ -41,6 +49,8 @@ require '../header.php';
                     <th>Order ID</th>
                     <th>Customer</th>
                     <th>Total</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
                     <th>Date</th>
                     <th style="width: 5%" data-sortable="false"></th>
                 </tr>
@@ -49,13 +59,64 @@ require '../header.php';
             <tbody>
 
                 <?php while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) { ?>
+
+                    <?php
+                    // Método de pago
+                    $medioPago = $row['medio_pago'];
+
+                    if ($medioPago == 'oxxo') {
+                        $metodoPagoTexto = 'OXXO';
+                        $metodoBadge = 'danger';
+                    } elseif ($medioPago == 'paypal') {
+                        $metodoPagoTexto = 'PayPal';
+                        $metodoBadge = 'primary';
+                    } elseif ($medioPago == 'mercadopago' || $medioPago == 'mp') {
+                        $metodoPagoTexto = 'Mercado Pago';
+                        $metodoBadge = 'info';
+                    } else {
+                        $metodoPagoTexto = strtoupper($medioPago);
+                        $metodoBadge = 'dark';
+                    }
+
+                    // Estado de compra
+                    if ($row['status'] == 'PENDIENTE_OXXO') {
+                        $estadoTexto = 'Pending OXXO';
+                        $estadoBadge = 'warning';
+                    } elseif ($row['status'] == 'COMPLETED' || $row['status'] == 'approved') {
+                        $estadoTexto = 'Completed';
+                        $estadoBadge = 'success';
+                    } else {
+                        $estadoTexto = $row['status'];
+                        $estadoBadge = 'secondary';
+                    }
+                    ?>
+
                     <tr>
                         <td><?php echo $row['id_transaccion']; ?></td>
                         <td><?php echo $row['cliente']; ?></td>
-                        <td><?php echo $row['total']; ?></td>
-                        <td><?php echo $row['fecha']; ?></td>
+                        <td><?php echo '$' . number_format($row['total'], 2, '.', ','); ?></td>
+
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#detalleModal" data-bs-orden="<?php echo $row['id_transaccion']; ?>">
+                            <span class="badge bg-<?php echo $metodoBadge; ?>">
+                                <?php echo $metodoPagoTexto; ?>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-<?php echo $estadoBadge; ?>">
+                                <?php echo $estadoTexto; ?>
+                            </span>
+                        </td>
+
+                        <td><?php echo $row['fecha']; ?></td>
+
+                        <td>
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-primary" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#detalleModal" 
+                                data-bs-orden="<?php echo $row['id_transaccion']; ?>">
                                 <i class="fas fa-shopping-basket"></i> View
                             </button>
                         </td>
@@ -72,21 +133,26 @@ require '../header.php';
 <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="detalleModalLabel">Order details</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
+
         </div>
     </div>
 </div>
 
 <script>
     const detalleModal = document.getElementById('detalleModal')
+
     detalleModal.addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget
         const orden = button.getAttribute('data-bs-orden')

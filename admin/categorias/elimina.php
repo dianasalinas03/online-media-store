@@ -1,6 +1,6 @@
 <?php
 
-/*Elimina el registro para categorías (Dar de baja)*/
+/*Elimina el registro para categorias (Dar de baja)*/
 
 require '../config/config.php';
 

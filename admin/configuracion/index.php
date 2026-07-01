@@ -192,7 +192,7 @@ require '../header.php';
             const chkMp = document.getElementById('mp_activo').checked;
 
             if (!chkPaypal && !chkMp) {
-                event.preventDefault(); // Evitar el envío del formulario
+                event.preventDefault(); // Evitar el envio del formulario
                 //alert('Por favor, selecciona al menos una opción como medio de pago.');
                 const modalAlerta = new bootstrap.Modal('#modalAlerta')
                 modalAlerta.show()

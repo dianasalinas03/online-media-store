@@ -1,6 +1,6 @@
 <?php
 
-/*registro para categorías*/
+/*registro para categorias*/
 
 require '../config/config.php';
 
