@@ -3,7 +3,7 @@
 /**
  * Pago OXXO simulado
  * Genera una referencia, guarda la compra como pendiente
- * y simula/envía correo al cliente.
+ * y muestra un correo simulado al cliente.
  */
 
 require '../config/config.php';
@@ -106,7 +106,7 @@ try {
 
     $con->commit();
 
-    // Crear cuerpo del correo
+    // Crear cuerpo del correo simulado
     $cuerpo = "<h2>Referencia de pago OXXO</h2>";
     $cuerpo .= "<p>Hola <b>$nombreCliente</b>, gracias por tu compra.</p>";
     $cuerpo .= "<p>Elegiste el método de pago por <b>OXXO</b>.</p>";
@@ -121,26 +121,14 @@ try {
     }
     $cuerpo .= "</ul>";
 
-    // Guardamos el correo en sesión para mostrarlo como simulación si el SMTP no está configurado
+    // Guardamos el correo en sesión para mostrarlo como simulación
     $_SESSION['correo_oxxo_simulado'] = $cuerpo;
     $_SESSION['oxxo_fecha_limite'] = $fechaLimite;
 
-    // Intentar enviar correo real si el SMTP está configurado
-    // Si falla, no rompemos el flujo porque también queda simulado en pantalla
-    try {
-        ob_start();
-        require_once 'Mailer.php';
-        $mailer = new Mailer();
-        $mailer->enviarEmail($email, 'Referencia de pago OXXO - Tienda Online', $cuerpo);
-        ob_end_clean();
-    } catch (Exception $e) {
-        if (ob_get_length()) {
-            ob_end_clean();
-        }
-    }
-
+    // Vaciar carrito
     unset($_SESSION['carrito']);
 
+    // Redirigir a pantalla de confirmación
     header("Location: ../completado.php?key=" . urlencode($referencia));
     exit;
 

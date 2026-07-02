@@ -52,7 +52,7 @@ require '../header.php';
                     <th>Payment Method</th>
                     <th>Status</th>
                     <th>Date</th>
-                    <th style="width: 5%" data-sortable="false"></th>
+                    <th style="width: 12%" data-sortable="false">Actions</th>
                 </tr>
             </thead>
 
@@ -82,6 +82,9 @@ require '../header.php';
                     if ($row['status'] == 'PENDIENTE_OXXO') {
                         $estadoTexto = 'Pending OXXO';
                         $estadoBadge = 'warning';
+                    } elseif ($row['status'] == 'EN_REVISION_OXXO') {
+                        $estadoTexto = 'Waiting for review';
+                        $estadoBadge = 'info';
                     } elseif ($row['status'] == 'COMPLETED' || $row['status'] == 'approved') {
                         $estadoTexto = 'Completed';
                         $estadoBadge = 'success';
@@ -113,12 +116,24 @@ require '../header.php';
                         <td>
                             <button 
                                 type="button" 
-                                class="btn btn-sm btn-primary" 
+                                class="btn btn-sm btn-primary mb-1" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#detalleModal" 
                                 data-bs-orden="<?php echo $row['id_transaccion']; ?>">
                                 <i class="fas fa-shopping-basket"></i> View
                             </button>
+
+                            <?php if ($row['status'] == 'EN_REVISION_OXXO') { ?>
+                                <form action="marcar_pagado.php" method="post" style="display:inline-block;">
+                                    <input type="hidden" name="id_transaccion" value="<?php echo $row['id_transaccion']; ?>">
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-sm btn-success mb-1"
+                                        onclick="return confirm('¿Confirmar que este pago OXXO ya fue recibido?');">
+                                        Mark as Paid
+                                    </button>
+                                </form>
+                            <?php } ?>
                         </td>
                     </tr>
 
